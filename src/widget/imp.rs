@@ -11,7 +11,7 @@ use once_cell::sync::Lazy;
 
 #[cfg(target_endian = "big")]
 #[repr(packed)]
-#[derive(Clone, Copy, Debug, zerocopy::AsBytes)]
+#[derive(Clone, Copy, Debug)]
 struct Pixel {
     b: u8,
     g: u8,
@@ -20,7 +20,7 @@ struct Pixel {
 }
 #[cfg(target_endian = "little")]
 #[repr(packed)]
-#[derive(Clone, Copy, Debug, zerocopy::AsBytes)]
+#[derive(Clone, Copy, Debug)]
 struct Pixel {
     #[allow(dead_code)]
     a: u8,
@@ -464,8 +464,12 @@ impl Widget {
 
 impl AsRef<[u8]> for Image {
     fn as_ref(&self) -> &[u8] {
-        use zerocopy::AsBytes;
-        self.pixels.as_bytes()
+        unsafe {
+            use std::slice;
+
+            let (ptr, len) = (self.pixels.as_ptr(), self.pixels.len());
+            slice::from_raw_parts(ptr as *const u8, len * 4)
+        }
     }
 }
 
