@@ -1,0 +1,7 @@
+[wrap-file]
+directory = event-listener-5.3.1
+source_url = https://crates.io/api/v1/crates/event-listener/5.3.1/download
+source_filename = event-listener-5.3.1.tar.gz
+source_hash = 6032be9bd27023a771701cc49f9f053c751055f71efb2e0ae5c15809093675ba
+method = cargo
+diff_files = event-listener-5.3.1.patch
