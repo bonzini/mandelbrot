@@ -13,6 +13,7 @@ add_global_arguments(
 
 # trigger dependency resolution and apply dependency features in Cargo.toml.
 cargo = import('rust').workspace()
+pkg = cargo.package()
 # cargo.package().executable('mandelbrot', install: true)
 
 # executable() does not exist yet... for now, retrieve direct
@@ -25,9 +26,8 @@ gtk_dep = cargo.subproject('gtk4').dependency()
 zerocopy_dep = cargo.subproject('zerocopy').dependency()
 
 executable('mandelbrot', 'src/main.rs',
-  rust_dependency_map : {
-    'gtk4' : 'gtk',
-  },
+  rust_dependency_map : pkg.rust_dependency_map(),
+  rust_args: pkg.rust_args(),
   dependencies : [gtk_dep, num_complex_dep, rayon_dep, once_cell_dep, async_channel_dep, zerocopy_dep],
   install : true,
 )
