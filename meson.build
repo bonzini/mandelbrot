@@ -19,3 +19,11 @@ cargo.package().executable(install: true)
 #
 # and also picks rust_std from the package.edition key.  It's possible that
 # in the future more code generation options will be handled via [profile].
+#
+# Retrieving the dependencies with `.dependencies()` in turn is akin to
+# retrieving each of them with
+#
+#   num_complex_dep = cargo.subproject('num-complex').dependency()
+#
+# The required features are resolved at the time `workspace()` is invoked,
+# and are retrieved by the subproject with `cargo.package()` as well.
